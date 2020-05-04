@@ -32,15 +32,19 @@
         </header>
 
         <main class="card">
-            <!-- Um make this responsive -->
             <div class="row no-gutters">
-                <div class="col-4 bg-light">
-                    <div class="card-body" style="border-radius: 5px 0px 0px 5px">
+                <div class="col-lg-4 bg-light side">
+                    <div class="card-body">
                         <!-- <h5 class="card-title">Card title</h5> -->
-                        <div class="form-group">
-                            <label for="city-input">Search for a City:</label>
-                            <input type="text" class="form-control" id="city-input">
-                        </div>
+                        <form>
+                            <div class="form">
+                                <label for="city-input">Search for a City:</label>
+                            </div>
+                            <div class="form-group form-row">
+                                <div class="col-sm"><input type="text" class="form-control col" id="city-input"></div>
+                                <div class="col-sm-3 col-xl-2 mt-2 mt-sm-auto"><button class="btn btn-primary col"><i class="fas fa-search"></i><span id="search-text"> Search</span></button></div>
+                            </div>
+                        </form>
                         <div class="list-group">
                             <button type="button" class="list-group-item list-group-item-action">Paris, France</button>
                             <button type="button" class="list-group-item list-group-item-action">Minneapolis,
@@ -51,44 +55,44 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-8">
+                <div class="col-lg-8">
                     <div class="card-body">
                         <h3 class="card-title">City, Somewhere</h3>
                         <hr>
                         <div class="row no-gutters">
-                            <div class="col">
+                            <div class="col-sm">
                                 <div>
                                     <span class="display-1">88°</span>
-                                    <i class="wi wi-day-sunny display-4" style=" vertical-align: top; line-height: 125px;"></i>
+                                    <i class="wi wi-day-sunny display-4 big-icon"></i>
                                 </div>
                             </div>
-                            <div class="col-6">
+                            <div class="col-sm-6">
                                 <p>Humidity:</p>
                                 <p>Wind Speed:</p>
                                 <p>UV Index:</p>
                             </div>
                         </div>
                         <h3 class="mt-2 mb-3">5 Day Forecast</h3>
-                        
-                            <div class="row row-cols-5 no-gutters">
-                                <div class="col text-center text-white forecast fcast-1">
-                                    <p>Today:</p>
-                                </div>
-                                <div class="col text-center text-white forecast fcast-2">
-                                    <p>Tomorrow:</p>
-                                </div>
-                                <div class="col text-center text-white forecast fcast-3">
-                                    <p>Today:</p>
-                                </div>
-                                <div class="col text-center text-white forecast fcast-4">
-                                    <p>Today:</p>
-                                </div>
-                                <div class="col text-center text-white forecast fcast-5">
-                                    <p>Today:</p>
-                                </div>
+                        <!-- Um make this look good when responsive -->
+                        <div class="row row-cols-5 no-gutters">
+                            <div class="col-md text-center text-white forecast fcast-1">
+                                <p>Today:</p>
                             </div>
-                        
-                          
+                            <div class="col-md text-center text-white forecast fcast-2">
+                                <p>Tomorrow:</p>
+                            </div>
+                            <div class="col-md text-center text-white forecast fcast-3">
+                                <p>Today:</p>
+                            </div>
+                            <div class="col-md text-center text-white forecast fcast-4">
+                                <p>Today:</p>
+                            </div>
+                            <div class="col-md text-center text-white forecast fcast-5">
+                                <p>Today:</p>
+                            </div>
+                        </div>
+
+
                     </div>
                 </div>
             </div>
