@@ -1,4 +1,34 @@
 .jumbotron {
-    margin-top: 20px;
+    margin-top: 32px;
     padding: 32px !important;
+    background-image: linear-gradient(#3b5bdb,#59b6e6);
+}
+
+.forecast {
+    margin-bottom: 10px;
+    padding: 20px 10px !important;
+    height: 10em;
+}
+
+.fcast-1 {
+    background-color: #1f4371;
+}
+
+.fcast-2 {
+    background-color: #2962a9;
+}
+
+
+.fcast-3 {
+    background-color: #347bd5;
+}
+
+
+.fcast-4 {
+    background-color: #609ae1;
+}
+
+
+.fcast-5 {
+    background-color: #76a7e3;
 }
