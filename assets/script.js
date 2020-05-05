@@ -42,7 +42,7 @@ function getForecast() {
     }).then(function (response) {
         console.log(response);
         // Touch this up add color, make function
-        $("#uv-index").html(` ${Math.round(response.daily[0].uvi)}<small>of 10</small>`);
+        $("#uv-index").html(`${Math.round(response.daily[0].uvi)}<small>of 10</small>`);
         var i = 0;
         $(".forecast").each(function () {
             $(this).empty();

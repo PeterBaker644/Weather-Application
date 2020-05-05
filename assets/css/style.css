@@ -79,9 +79,23 @@
         margin-bottom: 20px;
         border-radius: 4px;
     }
+
+    .flex-row {
+        justify-content: center !important;
+        flex-wrap: wrap !important;
+    }
+    
+    .flex-row i {
+        text-align: center;
+        font-size: 32px !important;
+        margin-bottom: 8px;
+        padding: 0px 8px;
+    }
+
     .temp {
         font-size: 8rem;
     }
+
     .big-icon {
         vertical-align: bottom; 
         line-height: auto;
