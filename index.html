@@ -42,7 +42,9 @@
                             </div>
                             <div class="form-group form-row">
                                 <div class="col-sm"><input type="text" class="form-control col" id="city-input"></div>
-                                <div class="col-sm-3 col-xl-2 mt-2 mt-sm-auto"><button class="btn btn-primary col" id="search-city"><i class="fas fa-search"></i><span id="search-text"> Search</span></button></div>
+                                <div class="col-sm-3 col-xl-2 mt-2 mt-sm-auto"><button class="btn btn-primary col"
+                                        id="search-city"><i class="fas fa-search"></i><span id="search-text">
+                                            Search</span></button></div>
                             </div>
                         </form>
                         <!-- Save country parsing for very last as if requires server testing -->
@@ -61,21 +63,28 @@
                         <h3 class="card-title" id="city-name">City, Somewhere </h3>
                         <hr>
                         <div class="row no-gutters">
-                            <div class="col-sm">
-                                <div>
-                                    <span class="display-1" id="temperature">88°</span>
+                            <div class="col-sm text-center text-md-left">
+                                <div class="mb-3 mb-md-0">
+                                    <span class="display-1 temp" id="temperature">88°</span>
                                     <span class="display-4 big-icon"><i id="i-weather-current"></i></span>
                                 </div>
                             </div>
-                            <div class="col-sm-6">
-                                <p id="humidity">Humidity:</p>
-                                <p id="wind-speed">Wind Speed:</p>
-                                <p id="uv-index">UV Index:</p>
+                            <div class="col-md-7">
+                                <div class="d-flex flex-row align-items-center text-center justify-content-around h6 mb-0">
+                                        <i class="wi wi-raindrop text-muted"></i><div class="label  pr-md-2 pr-lg-1 pr-xl-2"> HUMIDITY</div>
+                                        <i class="wi wi-strong-wind text-muted"></i><div class="label  pr-md-2 pr-lg-1 pr-xl-2"> WIND SPEED</div>
+                                        <i class="wi wi-day-sunny text-muted"></i><div class="label"> UV INDEX</div>
+                                </div>
+                                <div class="d-flex flex-row text-center justify-content-around display-3">
+                                        <p id="humidity"></p>
+                                        <p id="wind-speed"></p>
+                                        <p id="uv-index"></p>
+                                </div>
                             </div>
                         </div>
-                        <h3 class="mt-2 mb-3">5 Day Forecast</h3>
+                        <h3 class="mb-3">5 Day Forecast</h3>
                         <!-- Um make this look good when responsive -->
-                        <div class="row row-cols-5 no-gutters">
+                        <div class="row row-cols-5 no-gutters lead">
                             <div class="col-md text-center text-white forecast fcast-1">
                             </div>
                             <div class="col-md text-center text-white forecast fcast-2">

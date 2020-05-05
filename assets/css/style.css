@@ -11,7 +11,7 @@
 
 .forecast {
     padding: 20px 10px !important;
-    height: 10em;
+    height: 12em;
 }
 
 .side {
@@ -42,7 +42,26 @@
 }
 
 .ficons {
-    font-size: 2rem;
+    font-size: 3rem;
+    padding: 10px;
+}
+
+.ftext {
+    font-size: 2.5rem;
+    margin-bottom: 5px;
+}
+
+.flex-row small {
+    font-size: 12px !important;
+}
+
+.flex-row i {
+    font-size: 20px !important;
+    line-height: 24px;
+}
+
+.label {
+    line-height: 24px;
 }
 
 #search-text {
@@ -59,5 +78,13 @@
     .forecast {
         margin-bottom: 20px;
         border-radius: 4px;
+    }
+    .temp {
+        font-size: 8rem;
+    }
+    .big-icon {
+        vertical-align: bottom; 
+        line-height: auto;
+        font-size: 5rem;
     }
 }

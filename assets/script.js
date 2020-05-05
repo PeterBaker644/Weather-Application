@@ -23,8 +23,8 @@ function getCityWeather() {
         iconClass = getIcon(Number(weatherCode), Number(hour), Number(sunrise), Number(sunset));
 
         $("#city-name").text(response.name + ", " + response.sys.country);
-        $("#wind-speed").text(`Wind: ${response.wind.speed}`);
-        $("#humidity").text(`Humidity: ${response.main.humidity}`);
+        $("#wind-speed").html(`${Math.round(response.wind.speed)}<small>mph</small>`);
+        $("#humidity").html(`${response.main.humidity}<small>%</small>`);
         $("#temperature").text(Math.round(response.main.temp) + "°");
         $("#i-weather-current").removeClass();
         $("#i-weather-current").addClass(iconClass);
@@ -35,43 +35,48 @@ function getCityWeather() {
 
 function getForecast() {
     var oneCallURL = `https://api.openweathermap.org/data/2.5/onecall?lat=${currentCity.latitude}&lon=${currentCity.longitude}&exclude=current,hourly&units=imperial&appid=be3bce43079bfb84af95f638fe28b8ec`
-    
+
     $.ajax({
         url: oneCallURL,
         method: "GET",
     }).then(function (response) {
         console.log(response);
         // Touch this up add color, make function
-        $("#uv-index").text(`UV Index: ${response.daily[0].uvi}`);
+        $("#uv-index").html(` ${Math.round(response.daily[0].uvi)}<small>of 10</small>`);
         var i = 0;
-        $(".forecast").each (function() {
+        $(".forecast").each(function () {
             $(this).empty();
             // Add label for each day
             label = $("<p>")
             if (i > 1) {
                 day = moment().add((i + 1), 'days').format("dddd");
                 label.text(day);
-            } else if (i == 1){
+            } else if (i == 1) {
                 label.text("Tomorrow")
             } else {
                 label.text("Today");
             }
-            label.addClass("lead");
+            // label.addClass("lead");
             $(this).append(label);
-            // Add a space
-            $(this).append("<br>")
             // Add an icon
             code = response.daily[i].weather[0].id;
             iconClass = getIcon(Number(code), 12, 0, 24);
             $(this).append($("<i>").addClass(iconClass).addClass("ficons"));
-            //
+            // Add the Temperature
+            temp = Math.round(response.daily[i].temp.day) + "°";
+            $(this).append($("<div>").text(temp).addClass("ftext"));
+            // Add humidity/percipitation
+            humidity = response.daily[i].humidity;
+            humidityIcon = $("<i>").addClass("wi wi-humidity");
+            humidityText = $("<span>").text(humidity + " ");
+            $(this).append($("<div>").append(humidityText, humidityIcon).addClass("small"));
             i++;
         })
 
     });
 }
 
-    function getIcon (code, hour, sunrise, sunset) {
+function getIcon(code, hour, sunrise, sunset) {
     console.log("sunrise is " + sunrise);
     console.log("sunset is " + sunset);
     console.log("hour is " + hour);
@@ -82,7 +87,7 @@ function getForecast() {
     else if (hour >= sunset || hour < sunrise) {
         var iconClass = `wi wi-owm-night-${code}`;
     }
-    return(iconClass);
+    return (iconClass);
 }
 
 $("#search-city").on("click", function (event) {
