@@ -51,8 +51,9 @@
     }
 }
 
-/* @media screen and (max-width: 576px) {
-    .display-1 {
-        font-size: 4rem;
+@media screen and (max-width: 767px) {
+    .forecast {
+        margin-bottom: 20px;
+        border-radius: 4px;
     }
-} */
+}
