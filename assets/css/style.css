@@ -75,12 +75,16 @@
 }
 
 @media screen and (max-width: 767px) {
+    .display {
+        justify-content: space-between !important;
+    }
+
     .forecast {
         margin-bottom: 20px;
         border-radius: 4px;
     }
 
-    .flex-row {
+    .unsquish {
         justify-content: center !important;
         flex-wrap: wrap !important;
     }

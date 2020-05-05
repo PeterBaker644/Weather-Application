@@ -95,3 +95,5 @@ $("#search-city").on("click", function (event) {
     getCityWeather();
     console.log("Request Attempted")
 });
+
+//Country parsing, state parsing, wind direction?, current place from browser
