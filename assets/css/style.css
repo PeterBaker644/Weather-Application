@@ -41,6 +41,10 @@
     background-color: #76a7e3;
 }
 
+.ficons {
+    font-size: 2rem;
+}
+
 #search-text {
     display: none;
 }

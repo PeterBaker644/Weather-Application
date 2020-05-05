@@ -2,10 +2,10 @@ var currentCity = { name: "", longitude: "", latitude: "" }
 
 function getCityWeather() {
     var city = $("#city-input").val();
-    var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&units=imperial&appid=be3bce43079bfb84af95f638fe28b8ec";
+    var cityURL = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&units=imperial&appid=be3bce43079bfb84af95f638fe28b8ec";
 
     $.ajax({
-        url: queryURL,
+        url: cityURL,
         method: "GET",
     }).then(function (response) {
         console.log(response)
@@ -15,26 +15,67 @@ function getCityWeather() {
 
         var weatherCode = response.weather[0].id;
         var hourUnix = Number(moment.utc().format('X')); // Get current UTC
-        var hourOffset = Number(response.timezone); // Get UTC offset
-        var hour = moment.unix(hourUnix + hourOffset).utc().format("H"); // Calculate UNIX time
-        const sunrise = moment(response.sys.sunrise, 'X').format("H");
-        const sunset = moment(response.sys.sunset, 'X').format("H");
+        var hourOffset = Number(response.timezone); // Get UTC timezone offset
+        var hour = moment.unix(hourUnix + hourOffset).utc().format("H"); // Calculate UNIX timestamp
+        sunrise = moment(response.sys.sunrise, 'X').format("H");
+        sunset = moment(response.sys.sunset, 'X').format("H");
 
-        console.log("sunrise is " + sunrise);
-        console.log("sunset is " + sunset);
-        console.log("hour is " + hour);
+        iconClass = getIcon(Number(weatherCode), Number(hour), Number(sunrise), Number(sunset));
 
-        iconClass = getIcon(weatherCode, hour, sunrise, sunset);
-
-        $("#city-name").text(response.name + "," + response.sys.country);
+        $("#city-name").text(response.name + ", " + response.sys.country);
         $("#wind-speed").text(`Wind: ${response.wind.speed}`);
         $("#humidity").text(`Humidity: ${response.main.humidity}`);
         $("#temperature").text(Math.round(response.main.temp) + "°");
+        $("#i-weather-current").removeClass();
         $("#i-weather-current").addClass(iconClass);
+
+        getForecast();
     });
 }
 
-function getIcon (code, hour, sunrise, sunset) {
+function getForecast() {
+    var oneCallURL = `https://api.openweathermap.org/data/2.5/onecall?lat=${currentCity.latitude}&lon=${currentCity.longitude}&exclude=current,hourly&units=imperial&appid=be3bce43079bfb84af95f638fe28b8ec`
+    
+    $.ajax({
+        url: oneCallURL,
+        method: "GET",
+    }).then(function (response) {
+        console.log(response);
+        // Touch this up add color, make function
+        $("#uv-index").text(`UV Index: ${response.daily[0].uvi}`);
+        var i = 0;
+        $(".forecast").each (function() {
+            $(this).empty();
+            // Add label for each day
+            label = $("<p>")
+            if (i > 1) {
+                day = moment().add((i + 1), 'days').format("dddd");
+                label.text(day);
+            } else if (i == 1){
+                label.text("Tomorrow")
+            } else {
+                label.text("Today");
+            }
+            label.addClass("lead");
+            $(this).append(label);
+            // Add a space
+            $(this).append("<br>")
+            // Add an icon
+            code = response.daily[i].weather[0].id;
+            iconClass = getIcon(Number(code), 12, 0, 24);
+            $(this).append($("<i>").addClass(iconClass).addClass("ficons"));
+            //
+            i++;
+        })
+
+    });
+}
+
+    function getIcon (code, hour, sunrise, sunset) {
+    console.log("sunrise is " + sunrise);
+    console.log("sunset is " + sunset);
+    console.log("hour is " + hour);
+    console.log("code is " + code);
     if (hour >= sunrise && hour < sunset) {
         var iconClass = `wi wi-owm-day-${code}`;
     }
