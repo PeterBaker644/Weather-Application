@@ -15,46 +15,33 @@
 
 <body>
 
-    <!-- <div class="jumbotron jumbotron-fluid bg-dark">
-        <div class="container">
-            <h1 class="display-4 text-center text-light">Weather Dashboard</h1>
-            <p class="lead"></p>
-        </div>
-    </div> -->
-
     <div class="container">
 
-        <header class="jumbotron bg-dark">
-            <!-- <div class="container"> -->
+        <header class="jumbotron bg-dark">           
             <h1 class="display-4 text-center text-white">Weather Dashboard</h1>
-            <p class="lead text-center text-light">Maybe we put current location and time here</p>
-            <!-- </div> -->
+            <!-- Don't forget to program this vvv -->
+            <p class="lead text-center text-light" id="info-header">Minneapolis, MN <i class="wi wi-day-sunny"></i></p>
         </header>
 
         <main class="card">
             <div class="row no-gutters">
                 <div class="col-lg-4 bg-light side">
                     <div class="card-body">
-                        <!-- <h5 class="card-title">Card title</h5> -->
                         <form>
                             <div class="form">
                                 <label for="city-input">Search for a City:</label>
                             </div>
                             <div class="form-group form-row">
                                 <div class="col-sm"><input type="text" class="form-control col" id="city-input"></div>
-                                <div class="col-sm-3 col-xl-2 mt-2 mt-sm-auto"><button class="btn btn-primary col"
-                                        id="search-city"><i class="fas fa-search"></i><span id="search-text">
-                                            Search</span></button></div>
+                                <div class="col-sm-3 col-xl-2 mt-2 mt-sm-auto">
+                                    <button class="btn btn-primary col" id="search-city">
+                                        <i class="fas fa-search"></i><span id="search-text"> Search</span>
+                                    </button>
+                                </div>
                             </div>
                         </form>
-                        <!-- Save country parsing for very last as if requires server testing -->
-                        <div class="list-group">
-                            <button type="button" class="list-group-item list-group-item-action">Paris, France</button>
-                            <button type="button" class="list-group-item list-group-item-action">Minneapolis,
-                                MN</button>
-                            <button type="button" class="list-group-item list-group-item-action">Ann Arbor, MI</button>
-                            <button type="button" class="list-group-item list-group-item-action">Crosby, MN</button>
-                            <button type="button" class="list-group-item list-group-item-action">New York, NY</button>
+                        <!-- Save geoname API parsing for very last -->
+                        <div class="list-group" id="city-list">
                         </div>
                     </div>
                 </div>
@@ -65,7 +52,7 @@
                         <div class="row no-gutters">
                             <div class="col-sm text-center text-md-left">
                                 <div class="mb-3 mb-md-0">
-                                    <span class="display-1 temp" id="temperature">88°</span>
+                                    <span class="display-1 temp" id="temperature">--°</span>
                                     <span class="display-4 big-icon"><i id="i-weather-current"></i></span>
                                 </div>
                             </div>
@@ -89,7 +76,7 @@
                             </div>
                         </div>
                         <h3 class="mb-3">5 Day Forecast</h3>
-                        <!-- Um make this look good when responsive -->
+                        <!-- Um make this look good when responsive, maybe could include popovers -->
                         <div class="row row-cols-5 no-gutters lead">
                             <div class="col-md text-center text-white forecast fcast-1">
                             </div>
@@ -102,28 +89,10 @@
                             <div class="col-md text-center text-white forecast fcast-5">
                             </div>
                         </div>
-
-
                     </div>
                 </div>
             </div>
         </main>
-
-        <!-- 
-        <div class="card mb-3" style="max-width: 540px;">
-            <div class="row no-gutters">
-              <div class="col-md-4">
-                <img src="..." class="card-img" alt="...">
-              </div>
-              <div class="col-md-8">
-                <div class="card-body">
-                  <h5 class="card-title">Card title</h5>
-                  <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                  <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-                </div>
-              </div>
-            </div>
-          </div> -->
 
     </div>
 

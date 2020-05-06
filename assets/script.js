@@ -1,7 +1,25 @@
-var currentCity = { name: "", longitude: "", latitude: "" }
+var currentCity = { "name": "", "country": "", "longitude": "", "latitude": "" }
+var searchedCities = []
+var addCity = true;
+// put this on a timer
+$("#info-header").append(moment().format(" h:mma"));
 
-function getCityWeather() {
-    var city = $("#city-input").val();
+// function geolocate() {
+//     function success(position) {
+//       const userLatitude  = position.coords.latitude;
+//       const userLongitude = position.coords.longitude;
+//     }
+//     function error() {
+//       alert('Unable to retrieve your location');
+//     } 
+//     if(!navigator.geolocation) {
+//       alert('Geolocation is not supported by your browser');
+//     } else {
+//       navigator.geolocation.getCurrentPosition(success, error);
+//     }
+// }
+
+function getCityWeather(city) {
     var cityURL = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&units=imperial&appid=be3bce43079bfb84af95f638fe28b8ec";
 
     $.ajax({
@@ -10,6 +28,7 @@ function getCityWeather() {
     }).then(function (response) {
         console.log(response)
         currentCity.name = response.name;
+        currentCity.country = response.sys.country;
         currentCity.longitude = response.coord.lon;
         currentCity.latitude = response.coord.lat;
 
@@ -30,6 +49,12 @@ function getCityWeather() {
         $("#i-weather-current").addClass(iconClass);
 
         getForecast();
+        
+        if (addCity) {
+            saveName();
+        } else {
+            addCity = true;
+        }
     });
 }
 
@@ -90,10 +115,37 @@ function getIcon(code, hour, sunrise, sunset) {
     return (iconClass);
 }
 
+function saveName() {
+    searchedCities.unshift({...currentCity});
+    $("#city-list").empty();
+    console.log("should be empty")
+    for (val in searchedCities) {
+        entry = searchedCities[val];
+        console.log("log entry:" + entry);
+        button = $("<button>").text(entry.name + ", " + entry.country);
+        button.addClass("list-group-item list-group-item-action");
+        // This line might need to chnge in the future depending on contents
+        button.attr("data-city", entry.name);
+        $("#city-list").append(button);
+        if (searchedCities.length >= 9) {
+            searchedCities.pop();
+        }
+    }
+}
+
 $("#search-city").on("click", function (event) {
     event.preventDefault();
-    getCityWeather();
+    getCityWeather($("#city-input").val());
     console.log("Request Attempted")
 });
+
+
+$("#city-list").on("click", function(event) {
+    event.preventDefault();
+    addCity = false;
+    city = event.target.getAttribute("data-city");
+    getCityWeather(city);
+});
+
 
 //Country parsing, state parsing, wind direction?, current place from browser
