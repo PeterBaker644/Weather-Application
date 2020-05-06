@@ -1,8 +1,36 @@
+geolocator.config({
+    language: "en",
+    google: {
+        version: "3",
+        key: "AIzaSyC5-jsDZjmy1yPJYHoBgygH1tCwdSAmurE"
+    }
+});
+
+window.onload = function () {
+    var options = {
+        enableHighAccuracy: true,
+        timeout: 5000,
+        maximumWait: 10000,     // max wait time for desired accuracy
+        maximumAge: 0,          // disable cache
+        desiredAccuracy: 30,    // meters
+        fallbackToIP: true,     // fallback to IP if Geolocation fails or rejected
+        addressLookup: true,    // requires Google API key if true
+        timezone: true         // requires Google API key if true
+    };
+    geolocator.locate(options, function (err, location) {
+        if (err) return console.log(err);
+        console.log(location);
+        const userLocation = location;
+    });
+};
+
 var currentCity = { "name": "", "country": "", "longitude": "", "latitude": "" }
 var searchedCities = []
 var addCity = true;
 // put this on a timer
 $("#info-header").append(moment().format(" h:mma"));
+
+// https://onury.io/geolocator/ <- Use this. And try to get it to work.
 
 // function geolocate() {
 //     function success(position) {
@@ -32,10 +60,10 @@ function getCityWeather(city) {
         currentCity.longitude = response.coord.lon;
         currentCity.latitude = response.coord.lat;
 
-        var weatherCode = response.weather[0].id;
-        var hourUnix = Number(moment.utc().format('X')); // Get current UTC
-        var hourOffset = Number(response.timezone); // Get UTC timezone offset
-        var hour = moment.unix(hourUnix + hourOffset).utc().format("H"); // Calculate UNIX timestamp
+        weatherCode = response.weather[0].id;
+        hourUnix = Number(moment.utc().format('X')); // Get current UTC
+        hourOffset = Number(response.timezone); // Get UTC timezone offset
+        hour = moment.unix(hourUnix + hourOffset).utc().format("H"); // Calculate UNIX timestamp
         sunrise = moment(response.sys.sunrise, 'X').format("H");
         sunset = moment(response.sys.sunset, 'X').format("H");
 
@@ -139,13 +167,11 @@ $("#search-city").on("click", function (event) {
     console.log("Request Attempted")
 });
 
-
 $("#city-list").on("click", function(event) {
     event.preventDefault();
     addCity = false;
     city = event.target.getAttribute("data-city");
     getCityWeather(city);
 });
-
 
 //Country parsing, state parsing, wind direction?, current place from browser
