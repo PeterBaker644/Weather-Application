@@ -58,7 +58,7 @@ function getCityWeather(city) {
         currentCity.name = response.name;
         currentCity.country = response.sys.country;
         currentCity.longitude = response.coord.lon;
-        currentCity.latitude = response.coord.lat;
+        currentCity.latitude = response.coord.lat; 
 
         weatherCode = response.weather[0].id;
         hourUnix = Number(moment.utc().format('X')); // Get current UTC
