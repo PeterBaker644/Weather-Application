@@ -29,16 +29,18 @@ window.onload = function () {
         // will need to change with countries. Do later.
         $("#header-info").prepend(userCity.city + ", " + userCity.state);
         console.log("appended header");
-        $("#header-icon").addClass(getCityWeather(userCity.city));
+        getCityWeather(userCity.city);
         $("#time").text(moment().format(" h:mma"));
         console.log("added time");
     });
 };
 
+ // 1
+
 var userCity = { "city": "", "state": "", "country": ""}
 var currentCity = { "city": "", "state": "", "country": "", "longitude": "", "latitude": "" }
 var searchedCities = []
-var addCity = false;
+var addCity = true;
 var updateMain = false;
 // put this on a timer
 
@@ -98,10 +100,10 @@ function getCityWeather(searchTerm) {
             $("#i-weather-current").addClass(iconClass);
             getForecast();
         } else {
+            $("#header-icon").addClass(iconClass);
+            $("#header-icon").text(" ")
             console.log("added class to icon");
             updateMain = true;
-            addCity = true;
-            return (iconClass);
         }
         
         if (addCity) {
@@ -175,6 +177,7 @@ function saveName() {
     console.log("should be empty")
     for (val in searchedCities) {
         entry = searchedCities[val];
+        // THIS IS TROUBLE
         console.log("log entry:" + entry);
         // needs to be changed if we start using state names
         if (entry.country !== "US") {
