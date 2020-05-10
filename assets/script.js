@@ -19,7 +19,7 @@ window.onload = function () {
         listLocation();
     }
     var options = {
-        addressLookup: true,    // requires Google API key if true
+        addressLookup: true,
     };
     geolocator.locateByIP(options, function locate(err, location) {
         if (err) {
