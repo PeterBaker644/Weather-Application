@@ -1,7 +1,9 @@
 var currentCity = { "city": "", "state": "", "country": "", "longitude": "", "latitude": "" };
 var searchedCities = [];
+var userCity = "";
 var saveLocation = false;
 var writeHeader = true;
+var updateMain = true;
 
 geolocator.config({
     language: "en",
@@ -23,10 +25,17 @@ window.onload = function () {
         if (err) {
             return console.log(err);
         }
-        getCityWeather(location.address.city);
-        $("#time").text(moment().format(" h:mma"));
+        userCity = location.address.city;
+        getCityWeather(userCity);
     });
-};
+}
+
+// Commented out because I can't afford to make so many calls.
+// setInterval(function () {
+//     updateMain = false;
+//     writeHeader = true;
+//     getCityWeather(userCity);
+// }, 600000);
 
 function fullName(list) {
     if (list.country !== "US") {
@@ -41,11 +50,16 @@ function getCityWeather(city) {
 
     geolocator.geocode(city, function (err, location) {
         if (err) {
+            $("#city-input").addClass("is-invalid")
             return console.log(err);
+        } else {
+            $("#city-input").removeClass("is-invalid")
         }
         currentCity.city = location.address.city;
         if (location.address.countryCode == "US") {
             currentCity.state = location.address.stateCode;
+        } else {
+            currentCity.state = "";
         }
         currentCity.country = location.address.countryCode;
         currentCity.longitude = location.coords.longitude.toFixed(4);
@@ -57,8 +71,6 @@ function getCityWeather(city) {
             url: cityURL,
             method: "GET",
         }).then(function (response) {
-            console.log(response)
-            
             weatherCode = response.weather[0].id;
             hourUnix = Number(moment.utc().format('X')); // Get current UTC
             hourOffset = Number(response.timezone); // Get UTC timezone offset
@@ -68,7 +80,7 @@ function getCityWeather(city) {
 
             iconClass = getIcon(Number(weatherCode), Number(hour), Number(sunrise), Number(sunset));
             
-            // if (updateMain) {
+            if (updateMain) {
                 $("#city-name").text(fullName(currentCity));
                 $("#wind-speed").html(`${Math.round(response.wind.speed)}<small>mph</small>`);
                 $("#humidity").html(`${response.main.humidity}<small>%</small>`);
@@ -76,13 +88,16 @@ function getCityWeather(city) {
                 $("#i-weather-current").removeClass();
                 $("#i-weather-current").addClass(iconClass);
                 getForecast();
-            // }
+            }
             if (writeHeader) {
+                $("#header-info").empty();
                 $("#header-info").prepend(fullName(currentCity) + " ");
-                $("#header-icon").addClass(iconClass);
-                $("#header-icon").text(" ")
-                console.log("added class to icon");
+                icon = $("<i>").addClass(iconClass);
+                icon.text(" ");
+                time = $("<span>").text(moment().format(" h:mma"));
+                $("#header-info").append(icon, time);
                 writeHeader = false;
+                updateMain = true;
             }
         });
     });
@@ -95,9 +110,21 @@ function getForecast() {
         url: oneCallURL,
         method: "GET",
     }).then(function (response) {
-        console.log(response);
-        // Touch this up add color, make function
-        $("#uv-index").html(`${Math.round(response.daily[0].uvi)}<small>of 10</small>`);
+        uvValue = Math.round(response.daily[0].uvi)
+        if (uvValue < 3) {
+            $("#uv-index").css("color", "green")
+        } else if (uvValue < 6 ) {
+            $("#uv-index").css("color", "yellow")
+        } else if (uvValue < 8) {
+            $("#uv-index").css("color", "orange")
+        } else if (uvValue < 11) {
+            $("#uv-index").css("color", "red")
+        } else if (uvValue >= 11) {
+            $("#uv-index").css("color", "magenta")
+        }
+        $("#uv-index").text(uvValue)
+        $("#uv-index").append($("<small>").text("of 10+").css("color", "black"))
+
         var i = 0;
         $(".forecast").each(function () {
             $(this).empty();
@@ -111,7 +138,6 @@ function getForecast() {
             } else {
                 label.text("Today");
             }
-            // label.addClass("lead");
             $(this).append(label);
             // Add an icon
             code = response.daily[i].weather[0].id;
@@ -128,8 +154,13 @@ function getForecast() {
             i++;
         })
         if (saveLocation) {
-            searchedCities.unshift({...currentCity});
-            listLocation();
+            if (searchedCities.length == 0) {
+                searchedCities.unshift({...currentCity});
+                listLocation();
+            } else if (searchArray() == true) {
+                searchedCities.unshift({...currentCity});
+                listLocation();
+            }
             saveLocation = false;
         }
     });
@@ -150,7 +181,6 @@ function listLocation() {
     $("#city-list").empty();
     for (val in searchedCities) {
         entry = searchedCities[val];
-        console.log
         button = $("<button>").text(fullName(entry));
         button.attr("data-city", fullName(entry));
         button.addClass("list-group-item list-group-item-action");
@@ -161,10 +191,24 @@ function listLocation() {
     }
 }
 
+function searchArray() {
+    for (var i=0; i < searchedCities.length; i++) {
+        if (searchedCities[i].city === currentCity.city) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+}
+
 $("#search-city").on("click", function (event) {
     event.preventDefault();
     saveLocation = true;
-    getCityWeather($("#city-input").val());
+    if ($("#city-input").val()) {
+        getCityWeather($("#city-input").val());
+    } else {
+        $("#city-input").addClass("is-invalid")
+    }
     $("#city-input").val("");
 });
 
@@ -173,5 +217,3 @@ $("#city-list").on("click", function(event) {
     city = event.target.getAttribute("data-city");
     getCityWeather(city);
 });
-
-//Country parsing, state parsing, wind direction?, current place from browser

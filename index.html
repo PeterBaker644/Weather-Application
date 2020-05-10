@@ -19,20 +19,23 @@
 
         <header class="jumbotron bg-dark">           
             <h1 class="display-4 text-center text-white">Weather Dashboard</h1>
-            <p class="lead text-center text-light" id="header-info"><i id="header-icon"></i><span id="time"></span></p>
+            <p class="lead text-center text-light" id="header-info"></p>
         </header>
 
         <main class="card">
             <div class="row no-gutters">
                 <div class="col-lg bg-light side">
                     <div class="card-body">
-                        <form>
+                        <form novalidate>
                             <div class="form">
                                 <label for="city-input">Search for a City:</label>
                             </div>
                             <div class="form-group form-row">
-                                <div class="col-sm"><input type="text" class="form-control col" id="city-input"></div>
-                                <div class="col-sm-3 col-xl-2 mt-2 mt-sm-auto">
+                                <div class="col-sm">
+                                    <input type="text" class="form-control col" id="city-input">
+                                    <div class="invalid-feedback">Please enter a valid location</div>
+                                </div>
+                                <div class="col-sm-3 col-xl-2 mt-2 mt-sm-0">
                                     <button class="btn btn-primary col" id="search-city">
                                         <i class="fas fa-search"></i><span id="search-text"> Search</span>
                                     </button>
